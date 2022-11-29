@@ -1,10 +1,7 @@
 from __future__ import print_function, division
 
 from flask import Flask, request, current_app
-from flask.json import JSONEncoder
 from flask_cors import CORS
-from sqlalchemy import create_engine, text
-import json
 import cv2
 import numpy as np
 import urllib.request
@@ -16,16 +13,10 @@ from io import BytesIO
 
 import torch
 import torch.nn as nn
-import torch.optim as optim
-from torch.optim import lr_scheduler
 import torch.backends.cudnn as cudnn
 import numpy as np
-import torchvision
 from torchvision import datasets, models, transforms
 import matplotlib.pyplot as plt
-import time
-import os
-import copy
 
 cudnn.benchmark = True
 plt.ion()   # interactive mode
