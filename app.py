@@ -93,10 +93,28 @@ def img_to_mosaic(url):
 def hello():
     return 'Hello, My First Flask!'
 
-
-
 @app.route('/<string:id>/locimgsubmit', methods=['POST'])
 def loc_imgsubmit(id):
+    params = request.get_json()
+    img = params['img']
+
+    # 모자이크--------------------------------------------------------------
+    file, src = img_to_mosaic(img)
+    print(src)
+
+    # DB에 모자이크 파일 넣기----------------------------------------------------------------------------------
+
+    print(len(src), id)
+    db_class = dbModule.Database()
+    src = str(src)
+    src = src[2:]
+    db_class.execute("UPDATE LC_call_loc SET loc_img = %s WHERE userID = %s", (src, id,))
+    db_class.commit()
+
+    return src
+
+@app.route('/<string:id>/camimgsubmit', methods=['POST'])
+def cam_imgsubmit(id):
     print('here')
     params = request.get_json()
     # params = json.loads(request.get_data(), encoding='utf-8')
@@ -138,6 +156,8 @@ def loc_imgsubmit(id):
         prediction_idx = get_prediction(input_tensor)
         print(prediction_idx)
 
+    db_class.execute("UPDATE LC_call_cam SET flood_ox = %s WHERE userID = %s", (prediction_idx, id,))
+    db_class.commit()
     
     return img
 
