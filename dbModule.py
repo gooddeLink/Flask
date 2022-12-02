@@ -1,10 +1,15 @@
 import pymysql
- 
+from dotenv import load_dotenv
+import os 
+
+# load .env
+load_dotenv()
+
 class Database():
     def __init__(self):
         self.db = pymysql.connect(host='database-2.cc5um8ekupdb.ap-northeast-2.rds.amazonaws.com',
                                   user='admin',
-                                  password='1771003307',
+                                  password=os.environ.get('DATABASE_PW'),
                                   db='LC',
                                   charset='utf8')
         self.cursor = self.db.cursor(pymysql.cursors.DictCursor)
